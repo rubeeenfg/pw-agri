@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import router
+from app.routes import productos
 import uvicorn
 
 app = FastAPI()
-app.include_router(router)
+app.include_router(productos.router)
 
 # Configuración de CORS para permitir peticiones desde tu frontend
 origins = [
