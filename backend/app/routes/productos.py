@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
-from app.models import Producto
+from app.modelo.producto import Producto
 from app.schemas import ProductoCreate, ProductoUpdate, ProductoOut
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 router = APIRouter()
 
@@ -49,3 +53,16 @@ def eliminar_producto(producto_id: int, db: Session = Depends(get_db)):
     db.delete(db_producto)
     db.commit()
     return {"detail": "Producto eliminado"}
+
+
+@router.get("/mis-productos")
+def mis_productos(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    # Decodificar token para obtener user_id
+    user_id = decode_token(token)
+    productos = db.query(Producto).filter(Producto.usuario_id == user_id).all()
+    return productos
+
+@router.get("/mercado")
+def mercado(db: Session = Depends(get_db)):
+    productos = db.query(Producto).all()
+    return productos
