@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 
+import PrivateRoute from "src/components/PrivateRoute";
+
 // We use those styles to show code examples, you should remove them in your application.
 import './scss/examples.scss'
 
@@ -45,11 +47,20 @@ const App = () => {
         }
       >
         <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
-          <Route exact path="/register" name="Register Page" element={<Register />} />
-          <Route exact path="/404" name="Page 404" element={<Page404 />} />
-          <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/404" element={<Page404 />} />
+          <Route path="/500" element={<Page500 />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route element={<DefaultLayout />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/404" element={<Page404 />} />
+              <Route path="/500" element={<Page500 />} />
+              <Route path="*" element={<Page404 />} />
+            </Route>
+          </Route>
         </Routes>
       </Suspense>
     </HashRouter>

@@ -1,0 +1,10 @@
+.vscode/
+.idea/
+.env
+node_modules/
+logs/
+.secrets/
+.postgres_data/
+dist/
+build/
+.vite/

@@ -9,6 +9,8 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/productos', name: 'Productos', element: Productos },
 
+
+
 ]
 
 export default routes
